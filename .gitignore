@@ -11,3 +11,7 @@ lib
 lib64
 
 media/*
+.venv
+env/
+venv/
+ENV/

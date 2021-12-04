@@ -12,8 +12,10 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 import environ
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent.parent
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
@@ -25,10 +27,10 @@ env = os.environ.get
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '6-v(d%ug_76y#%g#9$h*fp1bcr+ooa&-7vaq_+$e3ard-+)#y2'
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env('DEBUG')
 
 ALLOWED_HOSTS = []
 
@@ -60,9 +62,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'Khim_Backend.urls'
-from pathlib import Path
 
-BASE_DIR = Path(__file__).resolve().parent.parent
 
 TEMPLATES = [
     {
