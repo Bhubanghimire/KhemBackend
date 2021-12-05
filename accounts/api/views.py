@@ -17,7 +17,7 @@ from django.utils.html import strip_tags
 from django.contrib.auth import get_user_model
 from accounts.Middleware import generate_access_token, generate_refresh_token, generateOTP
 from accounts.models import OTP
-from .serialializers import UserSerializers
+from .serializers import UserSerializers
 
 User=get_user_model()
 

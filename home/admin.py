@@ -10,7 +10,7 @@ class EstimationAdmin(admin.ModelAdmin):
 
 @admin.register(Facility)
 class EstimationAdmin(admin.ModelAdmin):
-    list_display = ["id","project","name","value"]
+    list_display = ["id","project","bedroom","floor","area"]
 
 
 @admin.register(Project)

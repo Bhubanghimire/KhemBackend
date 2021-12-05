@@ -10,8 +10,10 @@ src/*.egg-info
 lib
 lib64
 
-media/*
+media
 .venv
 env/
 venv/
 ENV/
+
+.idea

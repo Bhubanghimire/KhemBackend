@@ -22,9 +22,9 @@ class Project(models.Model):
 
 class Facility(models.Model):
     project = models.ForeignKey('Project', on_delete=models.CASCADE)
-    name = models.ForeignKey(ConfigChoice, on_delete=models.CASCADE)
-    logo = models.ImageField(upload_to="estimation_logo/")
-    value = models.CharField(max_length=200)
+    bedroom = models.CharField(max_length=200)
+    floor = models.CharField(max_length=200)
+    area = models.CharField(max_length=200)
 
 
 class Review(models.Model):
