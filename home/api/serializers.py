@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from home.models import Project, Gallery,Facility, Review
+from home.models import Project, Gallery,Facility, Review,Estimation,Facility
 
 
 class ProjectSerializers(serializers.ModelSerializer):
@@ -23,4 +23,16 @@ class GallerySerializers(serializers.ModelSerializer):
 class ReviewSerializers(serializers.ModelSerializer):
     class Meta:
         model = Review
+        fields ="__all__"
+
+
+class EstimationSerializers(serializers.ModelSerializer):
+    class Meta:
+        model =Estimation
+        fields="__all__"
+
+
+class FacilitySerializers(serializers.ModelSerializer):
+    class Meta:
+        model = Facility
         fields ="__all__"

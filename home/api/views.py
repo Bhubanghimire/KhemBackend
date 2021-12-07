@@ -2,10 +2,12 @@ import json
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.contrib.auth import get_user_model
-from home.models import Project,Facility,Gallery, Review
+from home.models import Project,Facility,Gallery, Review,Estimation, Facility
 from rest_framework.permissions import AllowAny,IsAuthenticated
+from common.models import ConfigChoice
+from django.db.models import Sum, Min, Avg
 from accounts.api.serializers import UserSerializers
-from .serializers import ProjectSerializers,FacilitySerializers, GallerySerializers, ReviewSerializers
+from .serializers import ProjectSerializers,FacilitySerializers, GallerySerializers, ReviewSerializers, EstimationSerializers, FacilitySerializers
 User = get_user_model()
 
 
@@ -114,5 +116,46 @@ class GetReviewAPIView(APIView):
         response ={
             "data":final_list,
             "message":"list of review."
+        }
+        return Response(response)
+
+
+class ProjectDetailAPIView(APIView):
+    def get(self, request,project_id):
+        final_response={}
+        project_obj = Project.objects.filter(id=project_id).first()
+        if project_obj is None:
+            return Response({"message":"No project available"},status=400)
+        project_ser = ProjectSerializers(project_obj).data
+        final_response["id"]=project_ser["id"]
+        final_response["name"]=project_ser["name"]
+        final_response["description"]=project_ser["description"]
+        company_id = project_ser["company"]
+        company =User.objects.get(id=company_id)
+        company_json={
+            "id":company_id,
+            "name":str(company)
+        }
+
+        final_response["company"]=company_json
+        family_type = project_ser["family_type"]
+        type=ConfigChoice.objects.get(id=family_type)
+        final_response["family_type"]=str(type)
+
+        estimation=Estimation.objects.filter(project=project_id)
+        estimation_ser=EstimationSerializers(estimation,many=True,context={"request":request}).data
+        final_response["estimation"]=estimation_ser
+
+        facility =Facility.objects.filter(project=project_obj).first()
+        facility_ser = FacilitySerializers(facility).data
+        final_response["facility"]=facility_ser
+
+        rating=Review.objects.filter().aggregate(Avg('value'))
+        rate=rating["value__avg"]
+        final_response["rate"]=rate
+
+        response={
+            "data":final_response,
+            "message":"detail of project"
         }
         return Response(response)

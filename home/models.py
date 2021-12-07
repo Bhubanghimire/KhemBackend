@@ -12,7 +12,6 @@ class Estimation(models.Model):
     value = models.CharField(max_length=200)
 
 
-
 class Project(models.Model):
     name = models.CharField(max_length=200)
     description = models.TextField()
